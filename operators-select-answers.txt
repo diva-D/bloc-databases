@@ -1,0 +1,166 @@
+#### Exercises
+
+> 1. Write out a generic SELECT statement.
+
+    A:
+    SELECT <column1, column2, ... *>
+    FROM <table1, table2 ...>
+    <optional: WHERE <condition>>
+
+> 2. Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
+
+    A:
+    Sam (SELECT)
+    Farts (FROM)
+    Wind (WHERE)
+
+    
+> 3. Given this dogs table, write queries to select the following pieces of data:
+
+    > 3.1 Display the name, gender, and age of all dogs that are part Labrador.
+
+        A:
+        SELECT name, gender, age
+        FROM dogs
+        WHERE breed LIKE '%labrador%';
+
+    > 3.2 Display the ids of all dogs that are under 1 year old.
+
+        A:
+        SELECT id
+        FROM dogs
+        WHERE age < 1;
+
+    > 3.3 Display the name and age of all dogs that are female and over 35lbs.
+
+        A:
+        SELECT name, age
+        FROM dogs
+        WHERE gender='F' AND weight > 35;
+
+    > 3.4 Display all of the information about all dogs that are not Shepherd mixes.
+
+        A:
+        SELECT *
+        FROM dogs
+        WHERE NOT breed LIKE '%shepherd%';
+
+    > 3.5 Display the id, age, weight, and breed of all dogs that are either over 60lbs or Great Danes.
+
+        A:
+        SELECT id, age, weight, breed
+        FROM dogs
+        WHERE breed='great dane' OR weight > 60;
+
+
+> 4 Given this cats table, what records are returned from these queries?
+
+    > 4.1 SELECT name, adoption_date FROM cats;
+
+        A:
+
+        | name     | adoption_date            |
+        | -------- | ------------------------ |
+        | Mushi    | 2016-03-22T00:00:00.000Z |
+        | Seashell |                          |
+        | Azul     | 2016-04-17T00:00:00.000Z |
+        | Victoire | 2016-09-01T00:00:00.000Z |
+        | Nala     |                          |
+
+    > 4.2 SELECT name, age FROM cats;
+
+        A:
+
+        | name     | age |
+        | -------- | --- |
+        | Mushi    | 1   |
+        | Seashell | 7   |
+        | Azul     | 3   |
+        | Victoire | 7   |
+        | Nala     | 1   |
+
+
+> 5. From the cats table, write queries to select the following pieces of data.
+
+    > 5.1 Display all the information about all of the available cats.
+
+        A:
+
+        SELECT *
+        FROM cats
+
+    > 5.2 Display the name and sex of all cats who are 7 years old.
+
+        A:
+
+        SELECT name, gender
+        FROM cats
+        WHERE age = 7;
+
+    > 5.3 Find all of the names of the cats, so you don’t choose duplicate names for new cats.
+
+        A:
+        SELECT name
+        FROM cats;
+
+
+> 6. List each comparison operator and explain when you would use it. Include a real world example for each.
+
+    A:
+    > : Greater than. Show products with price greater than $100
+
+    < : Less than. Show products with inventory level less than 5 units
+
+    = : Equal to. Show record for product with name equal to "Red bike"
+
+    <= : Less than or equal to. Show products with price less than or equal to $20
+
+    >= : Greater than or equal to. Show products with price greater than or equal to $999
+
+    <> / != : Not equal to. Show products where type is not equal to "accessory"
+
+    IN : Matches a value in a list.
+
+    NOT: Negates a condition. Show products where inventory is NOT 0
+
+    BETWEEN : Compares to a range of values. Show products where price is BETWEEN $10 and $20.
+
+    IS NULL : Returns true if value is NULL. Show products where description IS NULL
+
+    LIKE : Matches a pattern. Show products where name is LIKE "bike"
+
+    AND : Both conditions must be true. Show products where price < $10 AND inventory is < 5.
+
+    OR : Only one expression must be true. Show products where type = "Bike" or type = "Shoes".
+
+
+> 7. From the cats table, what data is returned from these queries?
+
+    > 7.1 SELECT name FROM cats WHERE gender = ‘F’;
+
+        A:
+        
+        | name     |
+        | -------- |
+        | Seashell |
+        | Nala     |
+
+    > 7.2 SELECT name FROM cats WHERE age <> 3;
+
+        A:
+            
+        | name     |
+        | -------- |
+        | Mushi    |
+        | Seashell |
+        | Victoire |
+        | Nala     |
+
+    > 7.3 SELECT ID FROM cats WHERE name != ‘Mushi’ AND gender = ‘M’;
+
+        A:
+
+        | id  |
+        | --- |
+        | 3   |
+        | 4   |
