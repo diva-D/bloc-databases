@@ -1,0 +1,237 @@
+#### Exercises
+
+> 1. How do you find related data held in two separate data tables?
+
+    A: You will need to have a foreign key in your first data table that matches the primary key in the other table. Then you can reference the related data  by using the foreign key, which will then match and pull in the related data from the other table.
+
+
+> 2. Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+
+    A:
+    INNER JOIN
+        - Will pull in data from both tables only if they match keys. 
+        - Example. Customer Table and Order Table. Showing a list of all orders from the order table based on a customer id to show orders for a single customer.
+
+    LEFT OUTER JOIN
+        - Pulls in all rows from the Left table. For any rows where there isn't a match on the right table, it shows null for the value(s) of the columns in table 2.
+        - Example. Product Table and Inventory Table. Shows a list of all products and their inventory level. If there is no inventory of the product the inventory level column will show null.
+
+    RIGHT OUTER JOIN
+        - Pulls in all rows from the Right table. For any rows where there isn't a match on the left table, it shows null for the value(s) of the columns in table 1.
+        - Example. Category Table and Product Table. Shows a list of all products and their cateogry. If there is no category inputted for the product the category column will show null.
+
+    
+> 3. Define primary key and foreign key. Give a real-world example for each.
+
+    A: Primary key is the unique identifier for each row in a table. Example - order number in an Order Table.
+       Foreign key is the reference to the primary key in another table. Example - the product id for the product bought used in the order table.
+
+    
+> 4. Define aliasing.
+
+    A: Aliasing is when you abbreviate a variable name (such as a table name) to shorten it for easier query writing.
+
+    
+> 5. Change this query so that you are using aliasing:
+    ```
+    SELECT professor.name, compensation.salary, compensation.vacation_days 
+        FROM professor 
+        JOIN compensation 
+        ON professor.id = compensation.professor_id;
+    ```
+
+    A:
+    SELECT p.name, c.salary, c.vacation_days
+        FROM professor AS p
+        JOIN compensation AS j
+        ON p.id = c.professor_id;
+
+    
+> 6. Why would you use a NATURAL JOIN? Give a real-world example.
+
+    A: When you have two tables you want to join and match their shared column(s) but you don't want to have to type out each one with 'USING' or specify it with an INNER JOIN. Example - Join a table of products with a category table to show the category name for each product.
+
+    
+> 7. Using this Employee schema and data, write queries to find the following information:
+    
+    > 7.1 List all employees and all shifts.
+
+        A:
+
+        SELECT employees.*, shifts.*
+            FROM employees
+            JOIN scheduled_shifts ON employees.id = scheduled_shifts.employee_id
+            JOIN shifts ON shifts.id = scheduled_shifts.shift_id;
+
+        | id  | name             | id  | date       | start_time | end_time |
+        | --- | ---------------- | --- | ---------- | ---------- | -------- |
+        | 1   | Hermione Granger | 2   | 1998-03-09 | 08:00:00   | 16:00:00 |
+        | 1   | Hermione Granger | 7   | 1998-03-10 | 08:00:00   | 16:00:00 |
+        | 1   | Hermione Granger | 12  | 1998-03-11 | 08:00:00   | 16:00:00 |
+        | 1   | Hermione Granger | 17  | 1998-03-12 | 08:00:00   | 16:00:00 |
+        | 1   | Hermione Granger | 22  | 1998-03-13 | 08:00:00   | 16:00:00 |
+        | 2   | Ronald Weasley   | 8   | 1998-03-10 | 12:00:00   | 16:00:00 |
+        | 2   | Ronald Weasley   | 18  | 1998-03-12 | 12:00:00   | 16:00:00 |
+        | 3   | Luna Lovegood    | 3   | 1998-03-09 | 12:00:00   | 16:00:00 |
+        | 3   | Luna Lovegood    | 13  | 1998-03-11 | 12:00:00   | 16:00:00 |
+        | 3   | Luna Lovegood    | 23  | 1998-03-13 | 12:00:00   | 16:00:00 |
+        | 4   | Draco Malfoy     | 15  | 1998-03-11 | 16:00:00   | 20:00:00 |
+        | 4   | Draco Malfoy     | 20  | 1998-03-12 | 16:00:00   | 20:00:00 |
+        | 4   | Draco Malfoy     | 25  | 1998-03-13 | 16:00:00   | 20:00:00 |
+        | 5   | Padma Patil      | 4   | 1998-03-09 | 12:00:00   | 20:00:00 |
+        | 5   | Padma Patil      | 9   | 1998-03-10 | 12:00:00   | 20:00:00 |
+        | 5   | Padma Patil      | 14  | 1998-03-11 | 12:00:00   | 20:00:00 |
+        | 5   | Padma Patil      | 1   | 1998-03-09 | 08:00:00   | 12:00:00 |
+        | 5   | Padma Patil      | 6   | 1998-03-10 | 08:00:00   | 12:00:00 |
+        | 5   | Padma Patil      | 11  | 1998-03-11 | 08:00:00   | 12:00:00 |
+        | 8   | Cho Chang        | 19  | 1998-03-12 | 12:00:00   | 20:00:00 |
+        | 8   | Cho Chang        | 24  | 1998-03-13 | 12:00:00   | 20:00:00 |
+        | 9   | Dean Thomas      | 5   | 1998-03-09 | 16:00:00   | 20:00:00 |
+        | 9   | Dean Thomas      | 10  | 1998-03-10 | 16:00:00   | 20:00:00 |
+
+    
+> 8. Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+
+    > 8.1 Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
+    
+        A:
+
+        SELECT v.first_name,  v.last_name, dogs.name
+            FROM volunteers AS v
+            LEFT JOIN dogs 
+                ON v.foster_dog_id = dogs.id;
+
+        | first_name | last_name  | name      |
+        | ---------- | ---------- | --------- |
+        | Rubeus     | Hagrid     | Munchkin  |
+        | Marjorie   | Dursley    | Marmaduke |
+        | Sirius     | Black      |           |
+        | Remus      | Lupin      |           |
+        | Albus      | Dumbledore |           |
+
+    > 8.2 The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+        A:
+
+        SELECT c.name, a.first_name, a.last_name, ca.date
+            FROM cats AS c
+            JOIN cat_adoptions AS ca 
+            ON ca.cat_id = c.id
+            JOIN adopters AS a 
+            ON (a.id = ca.adopter_id AND (CURRENT_DATE - ca.date < 30) );
+
+        | name     | first_name | last_name | date                     |
+        | -------- | ---------- | --------- | ------------------------ |
+        | Mushi    | Arabella   | Figg      | 2018-12-01T00:00:00.000Z |
+        | Victoire | Argus      | Filch     | 2018-12-06T00:00:00.000Z |
+
+    > 8.3 Create a list of adopters who have not yet chosen a dog to adopt.
+
+        A:
+
+        SELECT *
+    	FROM adopters AS a
+        LEFT JOIN dog_adoptions AS da
+    		ON a.id = da.adopter_id
+        		WHERE da.adopter_id IS null;
+
+        | id  | first_name | last_name | address             | phone_number | adopter_id | dog_id | date | fee |
+        | --- | ---------- | --------- | ------------------- | ------------ | ---------- | ------ | ---- | --- |
+        | 1   | Hermione   | Granger   | 32 Granger's Street | 676-464-7837 |            |        |      |     |
+        | 2   | Arabella   | Figg      | 4 Wisteria Walk     | 843-228-5239 |            |        |      |     |
+
+
+    > 8.4 Lists of all cats and all dogs who have not been adopted.
+
+        A:
+        CATS
+
+        SELECT c.name
+        FROM cats AS c
+        LEFT JOIN cat_adoptions AS ca
+                ON c.id = ca.cat_id
+                    WHERE ca.adopter_id IS NULL;
+
+        | name     |
+        | -------- |
+        | Seashell |
+        | Nala     |
+
+        DOGS
+
+        SELECT d.name
+            FROM dogs AS d
+            LEFT JOIN dog_adoptions AS da
+                ON d.id = da.dog_id
+                    WHERE da.adopter_id IS NULL;
+
+        | name      |
+        | --------- |
+        | Munchkin  |
+        | Boujee    |
+        | Lassie    |
+        | Marley    |
+        | Marmaduke |
+
+
+
+    > 8.5 The name of the person who adopted Rosco.
+
+        A:
+
+        SELECT a.first_name, a.last_name
+            FROM adopters AS a
+            JOIN dog_adoptions AS da
+                ON a.id = da.adopter_id
+            JOIN dogs AS d
+                ON d.id = da.dog_id
+                    WHERE d.name = 'Rosco';
+
+        | first_name | last_name |
+        | ---------- | --------- |
+        | Argus      | Filch     |
+
+
+    
+> 9. Using this Library schema and data, write queries applying the following scenarios and include the results:
+
+    > 9.1 To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+    
+        A:
+
+        SELECT h.rank, p.name
+        FROM patrons AS p
+        JOIN holds AS h
+            ON h.patron_id = p.id
+        JOIN books AS b
+            ON b.isbn = h.isbn
+            WHERE b.title = 'Advanced Potion-Making'
+        ORDER BY rank;
+
+        | rank | name           |
+        | ---- | -------------- |
+        | 1    | Terry Boot     |
+        | 2    | Cedric Diggory |
+
+    > 9.2 List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+
+        A:
+
+        SELECT p.name, b.title
+        FROM patrons AS p
+        LEFT JOIN
+            (SELECT *
+                FROM transactions
+                WHERE transactions.checked_in_date IS null
+                ) AS t
+                ON t.patron_id = p.id
+        LEFT JOIN books AS b
+            ON b.isbn = t.isbn;
+
+        | name             | title                                   |
+        | ---------------- | --------------------------------------- |
+        | Hermione Granger |                                         |
+        | Terry Boot       | Advanced Potion-Making                  |
+        | Padma Patil      |                                         |
+        | Cho Chang        |                                         |
+        | Cedric Diggory   | Fantastic Beasts and Where to Find Them |
